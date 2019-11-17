@@ -25,7 +25,7 @@ var makeGraph = function(penguins)
     .attr("height", screen.height)
     .append("g")
     .attr("id", "graph")
-    .attr("transform","translate("margins.left+","+margins.top+")");
+    .attr("transform","translate("+margins.left+","+margins.top+")");
     
     var width = screen.width  - margins.left - margins.right;
     var height = screen.height - margins.top - margins.bottom;
@@ -44,6 +44,16 @@ var makeGraph = function(penguins)
     .call(xAxis)
     
     
+     d3.select("body")
+        .selectAll("button")
+        .data(penguins)
+        .enter()
+        .append("button")
+        .text("penguin" + 1)
+    
+    
+    
+    
      d3.select(".axis")
     .append("g")
     .attr("id", "yAxis")
@@ -53,7 +63,7 @@ var makeGraph = function(penguins)
     var cScale = d3.scaleOrdinal(d3.schemeTableau10)
     
     createGraph(penguins, xScale, yScale, cScale, 0);
-    
+}
     var createGraph = function(penguins, xScale, yScale, cScale, index)
     {
         
@@ -69,13 +79,14 @@ var makeGraph = function(penguins)
             .attr("cx", function(num,index)
                   {
                 return xScale(index);
-            }
+            })
             .attr("cy",function(num)
                   {
                 return yScale(num.grade);
             })
             .attr("r", 3)
-    }
+           
+    
     
 
 }

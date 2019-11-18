@@ -33,6 +33,8 @@ var makeGraph = function(penguins)
     var xScale = d3.scaleLinear().domain([0,38]).range([0,width])
     var yScale = d3.scaleLinear().domain([0, 10]). range([height, 0])
     
+     var cScale = d3.scaleOrdinal(d3.schemeTableau10)
+    
     var xAxis = d3.axisBottom (xScale);
     var yAxis = d3.axisLeft (yScale);
     d3.select("svg").append("g").classed("axis", true);
@@ -49,7 +51,13 @@ var makeGraph = function(penguins)
         .data(penguins)
         .enter()
         .append("button")
-        .text("penguin" + 1)
+        .on("click", function(penguin, position){
+         createGraph(penguins, xScale, yScale, cScale, position)
+     })
+        .append("img")
+        .attr("src", function(penguin){
+         return "penguins/"+penguin.picture
+     })
     
     
     
@@ -60,7 +68,12 @@ var makeGraph = function(penguins)
     .attr("transform", "translate(25, "+margins.top+")")
     .call(yAxis);
     
-    var cScale = d3.scaleOrdinal(d3.schemeTableau10)
+    d3.select("#graph")
+    .selectAll("circle")
+    .data(penguins[0].quizes)
+    .enter()
+    .append("circle")
+    
     
     createGraph(penguins, xScale, yScale, cScale, 0);
 }
@@ -71,10 +84,9 @@ var makeGraph = function(penguins)
     var arrays = d3.select("#graph")
             .selectAll("circle")
             .data(penguins[index].quizes)
-            .enter()
-            .append("circle")
+            .transition()
             .attr("fill", function(){
-                return cScale(penguins[0].quizes.grade)
+                return cScale(penguins[index].quizes.grade)
             })
             .attr("cx", function(num,index)
                   {

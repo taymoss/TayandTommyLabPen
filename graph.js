@@ -51,7 +51,7 @@ var makeGraph = function(penguins)
         .data(penguins)
         .enter()
         .append("button")
-        .on("click", function(penguin, position){
+        .on("mouseover", function(penguin, position){
          createGraph(penguins, xScale, yScale, cScale, position)
      })
         .append("img")
